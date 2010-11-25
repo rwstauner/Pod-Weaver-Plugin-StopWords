@@ -82,3 +82,18 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 =for Pod::Coverage finalize_document
+
+=head1 DESCRIPTION
+
+This is a L<Pod::Weaver> plugin for dynamically adding stopwords
+to help pass the Pod Spelling test.
+It does the L<Pod::Weaver::Role::Finalizer> role.
+
+Author names will be included along with any
+stopwords specified in the plugin config (F<weaver.ini>).
+
+Additionally the plugin can gather any other stopwords
+listed in the POD and compile them all into one paragraph
+at the top of the document.
+
+=cut
