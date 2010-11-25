@@ -1,6 +1,7 @@
 package Pod::Weaver::Plugin::StopWords;
 # ABSTRACT: Dynamically add stopwords to your woven pod
 
+# TODO: test this ini:
 =head1 SYNOPSIS
 
 	# weaver.ini
@@ -17,6 +18,8 @@ use Moose::Autobox;
 use namespace::autoclean -also => 'splice_stopwords_from_children';
 
 with 'Pod::Weaver::Role::Finalizer';
+
+# TODO: attribute for removing words
 
 has gather => (
 	is      => 'ro',
@@ -35,15 +38,19 @@ sub finalize_document {
 
 	my @stopwords = $self->stopwords;
 
+	# TODO: ignore email address
 	if( my $zilla = ($input && $input->{zilla}) ){
 		push(@stopwords, split(/\s+/)) foreach @{ $zilla->{authors} };
 	}
 
+	# TODO: keep different sections as separate lines
 	push(@stopwords, splice_stopwords_from_children($document->children))
 		if $self->gather;
 
 	return unless @stopwords;
 
+	# TODO: use a hash to verify uniqueness
+	# TODO: use Text::Wrap
     $document->children->unshift(
         Pod::Elemental::Element::Pod5::Command->new({
             command => 'for :stopwords',
