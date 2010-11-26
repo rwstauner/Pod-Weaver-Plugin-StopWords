@@ -4,6 +4,7 @@ use warnings;
 use Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT = qw(test_basic weaver_input);
+our $Data = do { local $/; <DATA> };
 
 use Test::More;
 use Test::Differences;
@@ -61,7 +62,7 @@ sub weaver_input {
 	my $expected = do { local $/; open my $fh, '<', 't/eg/basic.out.pod'; <$fh> };
 	my $document = Pod::Elemental->read_string($in_pod);
 
-	my $perl_document = do { local $/; <DATA> };
+	my $perl_document = $Data;
 	my $ppi_document  = PPI::Document->new(\$perl_document);
 
 	return {
