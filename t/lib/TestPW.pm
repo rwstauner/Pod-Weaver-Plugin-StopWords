@@ -20,21 +20,28 @@ use Pod::Weaver;
 require Software::License::Perl_5;
 
 sub test_basic {
-	my ($weaver, $input) = @_;
-	# copied from Pod::Weaver tests (Pod-Weaver-3.101632/t/basic.t)
-	my $woven = $weaver->weave_document($input);
+	my ($weaver, $input, $stopwords) = @_;
 	my $expected = $input->{expected};
 
-	is($woven->children->length, 10, "we end up with a 10-paragraph document");
+	my ($paragraphs, $versionp, @nestedh1s) = (10, 1, qw(0 1 3 4 5 6 8 9));
+	if( $stopwords ){
+		++$_ for $paragraphs, $versionp, @nestedh1s;
+		$expected =~ s/\A=pod\n\n/=pod\n\n=for :stopwords $stopwords\n\n/;
+	}
 
-	for (qw(0 1 3 4 5 6 8 9)) {
+	# copied/modified from Pod::Weaver tests (Pod-Weaver-3.101632/t/basic.t)
+	my $woven = $weaver->weave_document($input);
+
+	is($woven->children->length, $paragraphs, "we end up with a $paragraphs-paragraph document");
+
+	for ( @nestedh1s ) {
 	  my $para = $woven->children->[ $_ ];
 	  isa_ok($para, 'Pod::Elemental::Element::Nested', "element $_");
 	  is($para->command, 'head1', "... and is =head1");
 	}
 
 	is(
-	  $woven->children->[1]->children->[0]->content,
+	  $woven->children->[$versionp]->children->[0]->content,
 	  'version 1.002003',
 	  "the version is in the version section",
 	);
