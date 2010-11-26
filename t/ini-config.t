@@ -8,8 +8,10 @@ use TestPW;
 
 my $input = weaver_input();
 
-my $weaver = Pod::Weaver->new_with_default_config;
+my $weaver = Pod::Weaver->new_from_config({ root => 't/eg' });
 
-test_basic($weaver, $input);
+my $stopwords = 1;
+
+test_basic($weaver, $input, 'MyExtraWord1 exword2');
 
 done_testing;
