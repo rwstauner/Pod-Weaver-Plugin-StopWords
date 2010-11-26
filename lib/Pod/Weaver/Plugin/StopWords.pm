@@ -22,6 +22,7 @@ with 'Pod::Weaver::Role::Finalizer';
 # TODO: attribute for removing words
 
 sub mvp_multivalue_args { qw(stopwords) }
+sub mvp_aliases { return { collect => 'gather' } }
 
 has gather => (
 	is      => 'ro',
