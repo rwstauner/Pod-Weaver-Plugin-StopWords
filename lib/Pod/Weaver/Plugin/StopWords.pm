@@ -45,7 +45,7 @@ has wrap => (
 sub finalize_document {
     my ($self, $document, $input) = @_;
 
-	my @stopwords = map { split /\s+/ } @{$self->stopwords};
+	my @stopwords = @{$self->stopwords};
 
 	# TODO: ignore email address
 	if( my $zilla = ($input && $input->{zilla}) ){
@@ -59,7 +59,7 @@ sub finalize_document {
 
 	my %seen;
 	#$seen{$_} = 1 foreach $self->remove;
-	@stopwords = grep { $_ && !$seen{$_}++ } @stopwords;
+	@stopwords = grep { $_ && !$seen{$_}++ } map { split /\s+/ } @stopwords;
 	return unless @stopwords;
 
     $document->children->unshift(
