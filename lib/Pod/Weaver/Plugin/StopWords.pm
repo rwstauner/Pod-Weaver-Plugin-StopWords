@@ -36,7 +36,7 @@ has stopwords => (
 sub finalize_document {
     my ($self, $document, $input) = @_;
 
-	my @stopwords = $self->stopwords;
+	my @stopwords = $self->stopwords || ();
 
 	# TODO: ignore email address
 	if( my $zilla = ($input && $input->{zilla}) ){
