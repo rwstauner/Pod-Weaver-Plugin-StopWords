@@ -21,6 +21,8 @@ with 'Pod::Weaver::Role::Finalizer';
 
 # TODO: attribute for removing words
 
+sub mvp_multivalue_args { qw(stopwords) }
+
 has gather => (
 	is      => 'ro',
 	isa     => 'Bool',
@@ -29,14 +31,14 @@ has gather => (
 
 has stopwords => (
     is      => 'ro',
-    isa     => 'Str',
-    default => '',
+    isa     => 'ArrayRef',
+    default => sub { [] },
 );
 
 sub finalize_document {
     my ($self, $document, $input) = @_;
 
-	my @stopwords = $self->stopwords || ();
+	my @stopwords = @{$self->stopwords};
 
 	# TODO: ignore email address
 	if( my $zilla = ($input && $input->{zilla}) ){
