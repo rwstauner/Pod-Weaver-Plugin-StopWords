@@ -41,6 +41,7 @@ sub finalize_document {
 	# TODO: ignore email address
 	if( my $zilla = ($input && $input->{zilla}) ){
 		push(@stopwords, split(/\s+/)) foreach @{ $zilla->{authors} };
+		# TODO: get stopwords from zilla
 	}
 
 	# TODO: keep different sections as separate lines
