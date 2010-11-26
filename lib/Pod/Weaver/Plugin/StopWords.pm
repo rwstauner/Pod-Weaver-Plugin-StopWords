@@ -38,7 +38,7 @@ has stopwords => (
 sub finalize_document {
     my ($self, $document, $input) = @_;
 
-	my @stopwords = @{$self->stopwords};
+	my @stopwords = map { split /\s+/ } @{$self->stopwords};
 
 	# TODO: ignore email address
 	if( my $zilla = ($input && $input->{zilla}) ){
@@ -50,10 +50,11 @@ sub finalize_document {
 	push(@stopwords, splice_stopwords_from_children($document->children))
 		if $self->gather;
 
-	@stopwords = grep { $_ } @stopwords;
+	my %seen;
+	#$seen{$_} = 1 foreach $self->remove;
+	@stopwords = grep { $_ && !$seen{$_}++ } @stopwords;
 	return unless @stopwords;
 
-	# TODO: use a hash to verify uniqueness
 	# TODO: use Text::Wrap
     $document->children->unshift(
         Pod::Elemental::Element::Pod5::Command->new({
