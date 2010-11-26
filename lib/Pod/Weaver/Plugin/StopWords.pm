@@ -104,6 +104,7 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 =for Pod::Coverage finalize_document format_stopwords
+mvp_aliases mvp_multivalue_args
 
 =head1 DESCRIPTION
 
@@ -112,10 +113,37 @@ to help pass the Pod Spelling test.
 It does the L<Pod::Weaver::Role::Finalizer> role.
 
 Author names will be included along with any
-stopwords specified in the plugin config (F<weaver.ini>).
+L</stopwords> specified in the plugin config (F<weaver.ini>).
 
 Additionally the plugin can gather any other stopwords
 listed in the POD and compile them all into one paragraph
 at the top of the document.
+
+=attr gather
+
+Gather up all other C< =for stopwords > sections and combine them into a
+single paragraph at the top of the document.
+
+If set to false the plugin will not search the document but will simply
+put any new stopwords in a new paragraph at the top.
+
+Defaults to true.
+
+Aliased as I<collect>.
+
+=attr stopwords
+
+List of stopwords to include.
+
+This can be set mutliple times.
+
+=attr wrap
+
+This is an integer for the number of columns at which to wrap the resulting
+paragraph.  It defaults to I<76> which is the default in
+L<Text::Wrap> (version 2004.0305).
+
+No wrapping will be done if L<Text::Wrap> is not found
+or if you set this value to I<0>.
 
 =cut
