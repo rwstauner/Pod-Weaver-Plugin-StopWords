@@ -60,7 +60,7 @@ sub test_basic {
 
 sub weaver_input {
 	my ($dir) = @_;
-	my $base = $dir ? "$dir/" : 't/eg/basic.';
+	my $base = $dir ? "$dir/" : 't/eg/';
 
 	# copied/modified from Pod::Weaver tests (Pod-Weaver-3.101632/t/basic.t)
 	my $in_pod   = slurp_file("${base}in.pod");
