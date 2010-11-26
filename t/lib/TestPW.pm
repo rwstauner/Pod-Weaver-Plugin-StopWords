@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT = qw(test_basic weaver_input);
+our @EXPORT = qw(slurp_file test_basic weaver_input);
 our $Data = do { local $/; <DATA> };
 
 use Test::More;
@@ -19,6 +19,8 @@ use Pod::Elemental::Transformer::Nester;
 
 use Pod::Weaver;
 require Software::License::Perl_5;
+
+sub slurp_file { local (@ARGV, $/) = @_; <> }
 
 sub test_basic {
 	my ($weaver, $input, $stopwords) = @_;
@@ -57,9 +59,12 @@ sub test_basic {
 }
 
 sub weaver_input {
-	# copied from Pod::Weaver tests (Pod-Weaver-3.101632/t/basic.t)
-	my $in_pod   = do { local $/; open my $fh, '<', 't/eg/basic.in.pod'; <$fh> };
-	my $expected = do { local $/; open my $fh, '<', 't/eg/basic.out.pod'; <$fh> };
+	my ($dir) = @_;
+	my $base = $dir ? "$dir/" : 't/eg/basic.';
+
+	# copied/modified from Pod::Weaver tests (Pod-Weaver-3.101632/t/basic.t)
+	my $in_pod   = slurp_file("${base}in.pod");
+	my $expected = slurp_file("${base}out.pod");
 	my $document = Pod::Elemental->read_string($in_pod);
 
 	my $perl_document = $Data;

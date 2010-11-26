@@ -1,7 +1,6 @@
 package Pod::Weaver::Plugin::StopWords;
 # ABSTRACT: Dynamically add stopwords to your woven pod
 
-# TODO: test this ini:
 =head1 SYNOPSIS
 
 	# weaver.ini

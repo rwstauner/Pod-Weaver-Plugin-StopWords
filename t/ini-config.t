@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
+use Test::Differences;
 use FindBin ();
 use lib "$FindBin::Bin/lib";
 use TestPW;
@@ -12,6 +13,20 @@ foreach my $eg ( ['t/eg'], ['t/eg2', 'MyExtraWord1 exword2 sw3'] ){
 	test_basic($weaver, $input, $words);
 }
 
+foreach my $dir ( glob("t/ini-*") ){
+	next unless -d $dir;
+	my $input = weaver_input($dir);
+	my $expected = $input->{expected};
+	my $weaver = Pod::Weaver->new_from_config({ root => $dir });
+	my $woven = $weaver->weave_document($input);
 
+	# XXX: This test is extremely risky as things change upstream.
+	# -- rjbs, 2009-10-23
+	eq_or_diff(
+	  $woven->as_pod_string,
+	  $expected,
+	  "exactly the pod string we wanted after weaving in $dir!",
+	);
+}
 
 done_testing;
