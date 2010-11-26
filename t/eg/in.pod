@@ -24,8 +24,4 @@ P.S. These tests plagiarized from Pod::Weaver tests (Pod-Weaver-3.101632).
 
 This should probably get moved up front.
 
-=attr is_awesome
-
-(This is true by default.)
-
 =cut

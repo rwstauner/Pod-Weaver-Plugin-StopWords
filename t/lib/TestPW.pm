@@ -26,7 +26,7 @@ sub test_basic {
 	my ($weaver, $input, $stopwords) = @_;
 	my $expected = $input->{expected};
 
-	my ($paragraphs, $versionp, @nestedh1s) = (10, 1, qw(0 1 3 4 5 6 8 9));
+	my ($paragraphs, $versionp, @nestedh1s) = ( 9, 1, qw(0 1 3 4 5   7 8));
 	if( $stopwords ){
 		++$_ for $paragraphs, $versionp, @nestedh1s;
 		$expected =~ s/\A=pod\n\n/=pod\n\n=for :stopwords $stopwords\n\n/;
