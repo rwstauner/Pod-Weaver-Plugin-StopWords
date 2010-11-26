@@ -35,6 +35,13 @@ has stopwords => (
     default => sub { [] },
 );
 
+has wrap => (
+	is      => 'ro',
+	isa     => 'Int',
+	default => 76
+);
+
+
 sub finalize_document {
     my ($self, $document, $input) = @_;
 
@@ -55,7 +62,6 @@ sub finalize_document {
 	@stopwords = grep { $_ && !$seen{$_}++ } @stopwords;
 	return unless @stopwords;
 
-	# TODO: use Text::Wrap
     $document->children->unshift(
         Pod::Elemental::Element::Pod5::Command->new({
             command => 'for :stopwords',
@@ -66,7 +72,13 @@ sub finalize_document {
 
 sub format_stopwords {
 	my ($self, $stopwords) = @_;
-	return join(' ', @$stopwords)
+	my $paragraph = join(' ', @$stopwords);
+
+	return $paragraph
+		unless $self->wrap && eval "require Text::Wrap";
+
+	local $Text::Wrap::columns = $self->wrap;
+	return Text::Wrap::wrap('', '', $paragraph);
 }
 
 sub splice_stopwords_from_children {
