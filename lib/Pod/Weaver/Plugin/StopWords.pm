@@ -58,9 +58,14 @@ sub finalize_document {
     $document->children->unshift(
         Pod::Elemental::Element::Pod5::Command->new({
             command => 'for :stopwords',
-            content => join(' ', @stopwords)
+            content => $self->format_stopwords(\@stopwords)
         }),
     );
+}
+
+sub format_stopwords {
+	my ($self, $stopwords) = @_;
+	return join(' ', @$stopwords)
 }
 
 sub splice_stopwords_from_children {
@@ -85,7 +90,7 @@ __PACKAGE__->meta->make_immutable;
 
 1;
 
-=for Pod::Coverage finalize_document
+=for Pod::Coverage finalize_document format_stopwords
 
 =head1 DESCRIPTION
 
