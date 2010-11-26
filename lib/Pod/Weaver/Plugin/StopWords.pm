@@ -48,6 +48,7 @@ sub finalize_document {
 	push(@stopwords, splice_stopwords_from_children($document->children))
 		if $self->gather;
 
+	@stopwords = grep { $_ } @stopwords;
 	return unless @stopwords;
 
 	# TODO: use a hash to verify uniqueness
@@ -55,7 +56,7 @@ sub finalize_document {
     $document->children->unshift(
         Pod::Elemental::Element::Pod5::Command->new({
             command => 'for :stopwords',
-            content => join(' ', grep { $_ } @stopwords)
+            content => join(' ', @stopwords)
         }),
     );
 }
