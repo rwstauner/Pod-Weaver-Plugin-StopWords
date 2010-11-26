@@ -135,7 +135,7 @@ Aliased as I<collect>.
 
 List of stopwords to include.
 
-This can be set mutliple times.
+This can be set multiple times.
 
 =attr wrap
 
