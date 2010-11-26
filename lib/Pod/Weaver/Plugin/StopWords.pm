@@ -31,7 +31,7 @@ has gather => (
 
 has stopwords => (
     is      => 'ro',
-    isa     => 'ArrayRef',
+    isa     => 'ArrayRef[Str]',
     default => sub { [] },
 );
 
