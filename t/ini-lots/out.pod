@@ -1,8 +1,8 @@
 =pod
 
-=for :stopwords MyExtraWord1 exword2 dupeword stopword3 stopword4 stopword5 foobarish
-foobazish reallylongword iloveperl theresapenguinlookingatme jumpingbunny
-bouncingrabbit fluffybunny sillyrabbit
+=for :stopwords Randy Stauner MyExtraWord1 exword2 dupeword stopword3 stopword4 stopword5
+foobarish foobazish reallylongword iloveperl theresapenguinlookingatme
+jumpingbunny bouncingrabbit fluffybunny sillyrabbit
 
 =head1 NAME
 

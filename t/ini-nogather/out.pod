@@ -1,6 +1,6 @@
 =pod
 
-=for :stopwords MyExtraWord1 exword2 foobarly
+=for :stopwords Randy Stauner MyExtraWord1 exword2 foobarly
 
 =head1 NAME
 
