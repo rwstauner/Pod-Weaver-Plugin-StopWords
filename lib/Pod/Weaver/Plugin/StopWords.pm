@@ -14,7 +14,8 @@ use strict;
 use warnings;
 use Moose;
 use Moose::Autobox;
-use namespace::autoclean -also => 'splice_stopwords_from_children';
+use namespace::autoclean -also =>
+	[qw(author_stopwords splice_stopwords_from_children)];
 
 with 'Pod::Weaver::Role::Finalizer';
 
@@ -22,6 +23,12 @@ with 'Pod::Weaver::Role::Finalizer';
 
 sub mvp_multivalue_args { qw(stopwords) }
 sub mvp_aliases { return { collect => 'gather' } }
+
+has include_authors => (
+	is      => 'ro',
+	isa     => 'Bool',
+	default => 1
+);
 
 has gather => (
 	is      => 'ro',
@@ -47,10 +54,17 @@ sub finalize_document {
 
 	my @stopwords = @{$self->stopwords};
 
-	# TODO: ignore email address
+	if( $input->{authors} ){
+		unshift(@stopwords, author_stopwords($input->{authors}))
+			if $self->include_authors;
+	}
+
 	if( my $zilla = ($input && $input->{zilla}) ){
-		push(@stopwords, split(/\s+/)) foreach @{ $zilla->{authors} };
 		# TODO: get stopwords from zilla
+		# these are probably the same authors as above, but just in case
+		# we'll add these, too (we remove duplicates later so it's ok)
+		unshift(@stopwords, author_stopwords($zilla->{authors}))
+			if $self->include_authors;
 	}
 
 	# TODO: keep different sections as separate lines
@@ -68,6 +82,12 @@ sub finalize_document {
             content => $self->format_stopwords(\@stopwords)
         }),
     );
+}
+
+sub author_stopwords {
+	# ignore email addresses since Pod::Spell will ignore them anyway
+	return grep { !/^<\S+\@\S+\.\S+>$/ }
+		map { split /\s+/ } map { ref($_) ? @$_ : $_ } @_;
 }
 
 sub format_stopwords {
