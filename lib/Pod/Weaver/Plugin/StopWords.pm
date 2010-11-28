@@ -181,11 +181,24 @@ List of stopwords to include.
 
 This can be set multiple times.
 
+Aliased as I<stopwords>.
+
+=attr include_authors
+
+A boolean value to indicate whether or not to include Author names
+as stopwords.  The pod spell check always complained about my last name
+appearing in the AUTHOR section.  It's one of the primary reasons for
+developing this plugin.
+
+Defaults to true.
+
 =attr wrap
 
 This is an integer for the number of columns at which to wrap the resulting
-paragraph.  It defaults to I<76> which is the default in
-L<Text::Wrap> (version 2004.0305).
+paragraph.
+
+It defaults to I<76> which is the default in
+L<Text::Wrap> (version 2009.0305).
 
 No wrapping will be done if L<Text::Wrap> is not found
 or if you set this value to I<0>.
