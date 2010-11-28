@@ -12,6 +12,7 @@ package Pod::Weaver::Plugin::StopWords;
 
 use strict;
 use warnings;
+use Dist::Zilla::Stash::PodWeaver ();
 use Moose;
 use Moose::Autobox;
 use namespace::autoclean;
@@ -22,31 +23,31 @@ sub mvp_multivalue_args { qw(exclude include) }
 sub mvp_aliases { return { collect => 'gather', stopwords => 'include' } }
 
 has exclude => (
-    is      => 'ro',
+    is      => 'rw',
     isa     => 'ArrayRef[Str]',
     default => sub { [] },
 );
 
 has gather => (
-	is      => 'ro',
+	is      => 'rw',
 	isa     => 'Bool',
 	default => 1
 );
 
 has include => (
-    is      => 'ro',
+    is      => 'rw',
     isa     => 'ArrayRef[Str]',
     default => sub { [] },
 );
 
 has include_authors => (
-	is      => 'ro',
+	is      => 'rw',
 	isa     => 'Bool',
 	default => 1
 );
 
 has wrap => (
-	is      => 'ro',
+	is      => 'rw',
 	isa     => 'Int',
 	default => 76
 );
@@ -54,6 +55,9 @@ has wrap => (
 
 sub finalize_document {
     my ($self, $document, $input) = @_;
+
+	# our attributes are read-write
+	Dist::Zilla::Stash::PodWeaver->merge_stashed_config(@_);
 
 	my @stopwords = @{$self->include};
 
@@ -63,7 +67,6 @@ sub finalize_document {
 	}
 
 	if( my $zilla = ($input && $input->{zilla}) ){
-		# TODO: get stopwords from zilla
 		# these are probably the same authors as above, but just in case
 		# we'll add these, too (we remove duplicates later so it's ok)
 		unshift(@stopwords, $self->author_stopwords($zilla->{authors}))
