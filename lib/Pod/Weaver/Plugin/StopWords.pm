@@ -6,7 +6,7 @@ package Pod::Weaver::Plugin::StopWords;
 	# weaver.ini
 	[-StopWords]
 	gather = 1     ; default
-	stopwords = MyExtraWord1 exword2
+	include = MyExtraWord1 exword2
 
 =cut
 
@@ -90,11 +90,25 @@ sub finalize_document {
     );
 }
 
+=method author_stopwords
+
+Collect names of authors from provided authors array.
+Ignore email addresses (since Pod::Spell will ignore them anyway).
+
+=cut
+
 sub author_stopwords {
 	my $self = shift;
-	# ignore email addresses since Pod::Spell will ignore them anyway
 	return grep { !/^<\S+\@\S+\.\S+>$/ } $self->separate_stopwords(@_);
 }
+
+=method format_stopwords
+
+Format the final paragraph to be added to the document.
+Uses L<Text::Wrap> if available and the I<wrap> attribute is set
+to a positive number (the column at which to wrap text).
+
+=cut
 
 sub format_stopwords {
 	my ($self, $stopwords) = @_;
@@ -107,11 +121,28 @@ sub format_stopwords {
 	return Text::Wrap::wrap('', '', $paragraph);
 }
 
+=method separate_stopwords
+
+Flatten passed arrays and arrayrefs and split the strings inside
+by whitespace to return a flat list of words.
+
+=cut
+
 sub separate_stopwords {
 	my $self = shift;
 	# flatten any array refs and split each string on spaces
 	map { split /\s+/ } map { ref($_) ? @$_ : $_ } @_;
 }
+
+=method splice_stopwords_from_children
+
+Look for any previous stopwords paragraphs in the document,
+capture the stopwords inside,
+and remove the paragraphs from the document.
+
+This is only called if I<gather> is true.
+
+=cut
 
 sub splice_stopwords_from_children {
     my ($self, $children) = @_;
@@ -138,8 +169,9 @@ __PACKAGE__->meta->make_immutable;
 
 1;
 
-=for Pod::Coverage finalize_document format_stopwords
-mvp_aliases mvp_multivalue_args
+=for stopwords arrayrefs
+
+=for Pod::Coverage finalize_document mvp_aliases mvp_multivalue_args
 
 =head1 DESCRIPTION
 
@@ -204,3 +236,11 @@ No wrapping will be done if L<Text::Wrap> is not found
 or if you set this value to I<0>.
 
 =cut
+
+=head1 SEE ALSO
+
+=for :list
+* L<Pod::Weaver>
+* L<Pod::Spell>
+* L<Test::Spelling>
+* L<Dist::Zilla::Plugin::PodSpellingTests>
