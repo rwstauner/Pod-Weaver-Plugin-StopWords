@@ -72,7 +72,9 @@ sub finalize_document {
 
 	my %seen;
 	#$seen{$_} = 1 foreach $self->remove;
-	@stopwords = grep { $_ && !$seen{$_}++ } map { split /\s+/ } @stopwords;
+	@stopwords = grep { $_ && !$seen{$_}++ }
+		$self->separate_stopwords(@stopwords);
+
 	return unless @stopwords;
 
     $document->children->unshift(
@@ -86,8 +88,7 @@ sub finalize_document {
 sub author_stopwords {
 	my $self = shift;
 	# ignore email addresses since Pod::Spell will ignore them anyway
-	return grep { !/^<\S+\@\S+\.\S+>$/ }
-		map { split /\s+/ } map { ref($_) ? @$_ : $_ } @_;
+	return grep { !/^<\S+\@\S+\.\S+>$/ } $self->separate_stopwords(@_);
 }
 
 sub format_stopwords {
@@ -99,6 +100,12 @@ sub format_stopwords {
 
 	local $Text::Wrap::columns = $self->wrap;
 	return Text::Wrap::wrap('', '', $paragraph);
+}
+
+sub separate_stopwords {
+	my $self = shift;
+	# flatten any array refs and split each string on spaces
+	map { split /\s+/ } map { ref($_) ? @$_ : $_ } @_;
 }
 
 sub splice_stopwords_from_children {
