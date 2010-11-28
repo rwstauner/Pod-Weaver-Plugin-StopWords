@@ -18,15 +18,13 @@ use namespace::autoclean;
 
 with 'Pod::Weaver::Role::Finalizer';
 
-# TODO: attribute for removing words
+sub mvp_multivalue_args { qw(exclude include) }
+sub mvp_aliases { return { collect => 'gather', stopwords => 'include' } }
 
-sub mvp_multivalue_args { qw(stopwords) }
-sub mvp_aliases { return { collect => 'gather' } }
-
-has include_authors => (
-	is      => 'ro',
-	isa     => 'Bool',
-	default => 1
+has exclude => (
+    is      => 'ro',
+    isa     => 'ArrayRef[Str]',
+    default => sub { [] },
 );
 
 has gather => (
@@ -35,10 +33,16 @@ has gather => (
 	default => 1
 );
 
-has stopwords => (
+has include => (
     is      => 'ro',
     isa     => 'ArrayRef[Str]',
     default => sub { [] },
+);
+
+has include_authors => (
+	is      => 'ro',
+	isa     => 'Bool',
+	default => 1
 );
 
 has wrap => (
@@ -51,7 +55,7 @@ has wrap => (
 sub finalize_document {
     my ($self, $document, $input) = @_;
 
-	my @stopwords = @{$self->stopwords};
+	my @stopwords = @{$self->include};
 
 	if( $input->{authors} ){
 		unshift(@stopwords, $self->author_stopwords($input->{authors}))
@@ -71,7 +75,8 @@ sub finalize_document {
 		if $self->gather;
 
 	my %seen;
-	#$seen{$_} = 1 foreach $self->remove;
+	$seen{$_} = 1 foreach $self->separate_stopwords($self->exclude);
+
 	@stopwords = grep { $_ && !$seen{$_}++ }
 		$self->separate_stopwords(@stopwords);
 
@@ -149,6 +154,15 @@ Additionally the plugin can gather any other stopwords
 listed in the POD and compile them all into one paragraph
 at the top of the document.
 
+=attr exclude
+
+List of stopwords to explicitly exclude.
+
+This can be set multiple times.
+
+If combined with 'gather' this can remove stopwords
+previously found in the Pod.
+
 =attr gather
 
 Gather up all other C< =for stopwords > sections and combine them into a
@@ -161,7 +175,7 @@ Defaults to true.
 
 Aliased as I<collect>.
 
-=attr stopwords
+=attr include
 
 List of stopwords to include.
 
