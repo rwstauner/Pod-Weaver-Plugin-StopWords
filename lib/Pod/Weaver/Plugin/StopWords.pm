@@ -14,8 +14,7 @@ use strict;
 use warnings;
 use Moose;
 use Moose::Autobox;
-use namespace::autoclean -also =>
-	[qw(author_stopwords splice_stopwords_from_children)];
+use namespace::autoclean;
 
 with 'Pod::Weaver::Role::Finalizer';
 
@@ -55,7 +54,7 @@ sub finalize_document {
 	my @stopwords = @{$self->stopwords};
 
 	if( $input->{authors} ){
-		unshift(@stopwords, author_stopwords($input->{authors}))
+		unshift(@stopwords, $self->author_stopwords($input->{authors}))
 			if $self->include_authors;
 	}
 
@@ -63,12 +62,12 @@ sub finalize_document {
 		# TODO: get stopwords from zilla
 		# these are probably the same authors as above, but just in case
 		# we'll add these, too (we remove duplicates later so it's ok)
-		unshift(@stopwords, author_stopwords($zilla->{authors}))
+		unshift(@stopwords, $self->author_stopwords($zilla->{authors}))
 			if $self->include_authors;
 	}
 
 	# TODO: keep different sections as separate lines
-	push(@stopwords, splice_stopwords_from_children($document->children))
+	push(@stopwords, $self->splice_stopwords_from_children($document->children))
 		if $self->gather;
 
 	my %seen;
@@ -85,6 +84,7 @@ sub finalize_document {
 }
 
 sub author_stopwords {
+	my $self = shift;
 	# ignore email addresses since Pod::Spell will ignore them anyway
 	return grep { !/^<\S+\@\S+\.\S+>$/ }
 		map { split /\s+/ } map { ref($_) ? @$_ : $_ } @_;
@@ -102,7 +102,8 @@ sub format_stopwords {
 }
 
 sub splice_stopwords_from_children {
-    my ($children, @stopwords) = @_;
+    my ($self, $children) = @_;
+	my @stopwords;
 
 	CHILDREN: foreach my $i ( 0 .. (@$children - 1) ){
 		next unless my $para = $children->[$i];
@@ -111,6 +112,8 @@ sub splice_stopwords_from_children {
 
 		push(@stopwords,
 			map { split(/\s+/, $_->content) } $para->children->flatten);
+
+		# remove paragraph from document since we've copied all of its stopwords
 		splice(@$children, $i, 1);
 
 		redo CHILDREN; # don't increment the counter
