@@ -12,7 +12,7 @@ package Pod::Weaver::Plugin::StopWords;
 
 use strict;
 use warnings;
-use Dist::Zilla::Stash::PodWeaver ();
+use Dist::Zilla::Stash::PodWeaver 0.005 ();
 use Moose;
 use Moose::Autobox;
 use namespace::autoclean;
@@ -57,7 +57,9 @@ sub finalize_document {
     my ($self, $document, $input) = @_;
 
 	# our attributes are read-write
-	Dist::Zilla::Stash::PodWeaver->merge_stashed_config(@_);
+	Dist::Zilla::Stash::PodWeaver->merge_stashed_config(
+		$self, {zilla => $input->{zilla}}
+	);
 
 	my @stopwords = @{$self->include};
 
