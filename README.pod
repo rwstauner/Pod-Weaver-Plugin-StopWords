@@ -1,4 +1,4 @@
-=head1 DESCRIPTION
+=head1 Pod::Weaver::Plugin::StopWords
 
 This is a L<Pod::Weaver> plugin for dynamically adding stopwords
 to help pass the Pod Spelling test.
