@@ -186,7 +186,7 @@ to help pass the Pod Spelling test.
 It does the L<Pod::Weaver::Role::Finalizer> role.
 
 Author names will be included along with any
-L</stopwords> specified in the plugin config (F<weaver.ini>).
+L<stopwords|/include> specified in the plugin config (F<weaver.ini>).
 
 Additionally the plugin can gather any other stopwords
 listed in the POD and compile them all into one paragraph
