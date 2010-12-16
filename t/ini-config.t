@@ -2,8 +2,7 @@ use strict;
 use warnings;
 use Test::More;
 use Test::Differences;
-use FindBin ();
-use lib "$FindBin::Bin/lib";
+use lib 't/lib';
 use TestPW;
 
 foreach my $eg ( ['t/eg'], ['t/eg2', 'MyExtraWord1 exword2 sw3'] ){
