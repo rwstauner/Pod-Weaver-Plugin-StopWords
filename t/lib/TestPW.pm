@@ -7,12 +7,12 @@ our @EXPORT = qw(slurp_file test_basic weaver_input);
 our $Data = do { local $/; <DATA> };
 
 use Test::More;
-use Test::Differences;
+use Test::Differences 0.500;
 use Moose::Autobox 0.10;
 
 use PPI;
 
-use Pod::Elemental;
+use Pod::Elemental 0.102360;
 use Pod::Elemental::Selectors -all;
 use Pod::Elemental::Transformer::Pod5;
 use Pod::Elemental::Transformer::Nester;

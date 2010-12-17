@@ -16,6 +16,7 @@ use Moose;
 use Moose::Autobox;
 use namespace::autoclean;
 
+use Pod::Weaver 3.101632 ();
 with 'Pod::Weaver::Role::Finalizer';
 
 sub mvp_multivalue_args { qw(exclude include) }
