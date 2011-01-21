@@ -22,6 +22,8 @@ with 'Pod::Weaver::Role::Finalizer';
 sub mvp_multivalue_args { qw(exclude include) }
 sub mvp_aliases { return {
 	collect                    => 'gather',
+	include_author             => 'include_authors',
+	include_copyright_holders  => 'include_copyright_holder',
 	stopwords                  => 'include'
 } }
 
