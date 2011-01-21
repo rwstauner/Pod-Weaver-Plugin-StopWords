@@ -220,6 +220,19 @@ Additionally the plugin can gather any other stopwords
 listed in the POD and compile them all into one paragraph
 at the top of the document.
 
+=head2 Using with Dist::Zilla
+
+If you're using L<Dist::Zilla> this plugin will check for the
+C<%PodWeaver> Stash (L<Dist::Zilla::Stash::PodWeaver>)
+and load any additional configuration found there.
+So you can specify additional stopwords
+(or any other attributes) in your F<dist.ini>:
+
+	; dist.ini
+	[@YourFavoriteBundle]
+	[%PodWeaver]
+	-StopWords:include = favorite_fake_word
+
 =attr exclude
 
 List of stopwords to explicitly exclude.
@@ -290,3 +303,4 @@ or if you set this value to I<0>.
 * L<Pod::Spell>
 * L<Test::Spelling>
 * L<Dist::Zilla::Plugin::PodSpellingTests>
+* L<Dist::Zilla::Stash::PodWeaver>
