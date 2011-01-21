@@ -49,6 +49,12 @@ has include_authors => (
 	default => 1
 );
 
+has include_copyright_holder => (
+	is      => 'rw',
+	isa     => 'Bool',
+	default => 1
+);
+
 has wrap => (
 	is      => 'rw',
 	isa     => 'Int',
@@ -59,6 +65,7 @@ has wrap => (
 sub finalize_document {
     my ($self, $document, $input) = @_;
 
+	# are we weaving under Dist::Zilla?
 	my $zilla = ($input && $input->{zilla});
 
 	# our attributes are read-write
@@ -68,16 +75,31 @@ sub finalize_document {
 
 	my @stopwords = @{$self->include};
 
-	if( $input->{authors} ){
-		unshift(@stopwords, $self->author_stopwords($input->{authors}))
-			if $self->include_authors;
+	# the attributes are probably the same between $input and $zilla,
+	# but we'll add them both just in case. (duplicates are removed later.)
+
+	if( $self->include_copyright_holder ){
+		my @holders;
+
+		push(@holders, $input->{license}->holder)
+			if $input->{license};
+		push(@holders, $zilla->copyright_holder)
+			if $zilla;
+
+		unshift(@stopwords, $self->separate_stopwords(@holders))
+			if @holders;
 	}
 
-	if( $zilla ){
-		# these are probably the same authors as above, but just in case
-		# we'll add these, too (we remove duplicates later so it's ok)
-		unshift(@stopwords, $self->author_stopwords($zilla->{authors}))
-			if $self->include_authors;
+	if( $self->include_authors ){
+		my @authors;
+
+		push(@authors, $input->{authors})
+			if $input->{authors};
+		push(@authors, $zilla->authors)
+			if $zilla;
+
+		unshift(@stopwords, $self->author_stopwords(@authors))
+			if @authors;
 	}
 
 	# TODO: keep different sections as separate lines
@@ -231,6 +253,18 @@ A boolean value to indicate whether or not to include Author names
 as stopwords.  The pod spell check always complained about my last name
 appearing in the AUTHOR section.  It's one of the primary reasons for
 developing this plugin.
+
+Defaults to true.
+
+=attr include_copyright_holder
+
+A boolean value to indicate whether or not to include stopwords for
+the C<copyright_holder> attribute.  This can be different than the author
+and will show up in the default LICENSE Section.
+
+This way you don't have to remember to put your company name
+into the L<%PodWeaver Stash|Dist::Zilla::Stash::PodWeaver>
+for every single F<dist.ini> you have at C<$work>.
 
 Defaults to true.
 
