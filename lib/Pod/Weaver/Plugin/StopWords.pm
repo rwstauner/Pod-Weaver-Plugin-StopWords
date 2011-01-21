@@ -20,7 +20,10 @@ use Pod::Weaver 3.101632 ();
 with 'Pod::Weaver::Role::Finalizer';
 
 sub mvp_multivalue_args { qw(exclude include) }
-sub mvp_aliases { return { collect => 'gather', stopwords => 'include' } }
+sub mvp_aliases { return {
+	collect                    => 'gather',
+	stopwords                  => 'include'
+} }
 
 has exclude => (
     is      => 'rw',
