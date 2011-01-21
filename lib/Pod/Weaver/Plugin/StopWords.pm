@@ -261,7 +261,7 @@ Defaults to true.
 =attr include_copyright_holder
 
 A boolean value to indicate whether or not to include stopwords for
-the C<copyright_holder> attribute.  This can be different than the author
+the license/copyright holder.  This can be different than the author
 and will show up in the default LICENSE Section.
 
 This way you don't have to remember to put your company name
