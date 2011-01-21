@@ -252,7 +252,7 @@ put any new stopwords in a new paragraph at the top.
 
 Defaults to true.
 
-Aliased as I<collect>.
+Aliased as C<collect>.
 
 =attr include
 
@@ -260,7 +260,7 @@ List of stopwords to include.
 
 This can be set multiple times.
 
-Aliased as I<stopwords>.
+Aliased as C<stopwords>.
 
 =attr include_authors
 
@@ -288,11 +288,11 @@ Defaults to true.
 This is an integer for the number of columns at which to wrap the resulting
 paragraph.
 
-It defaults to I<76> which is the default in
+It defaults to C<76> which is the default in
 L<Text::Wrap> (version 2009.0305).
 
 No wrapping will be done if L<Text::Wrap> is not found
-or if you set this value to I<0>.
+or if you set this value to C<0>.
 
 =cut
 
