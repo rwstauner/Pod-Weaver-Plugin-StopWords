@@ -8,6 +8,7 @@ our $Data = do { local $/; <DATA> };
 
 use Test::More;
 use Test::Differences 0.500;
+use Test::MockObject 1.09;
 use Moose::Autobox 0.10;
 
 use PPI;
@@ -19,6 +20,12 @@ use Pod::Elemental::Transformer::Nester;
 
 use Pod::Weaver;
 require Software::License::Perl_5;
+
+my $zilla = Test::MockObject->new();
+$zilla->set_always(license => Software::License::Perl_5->new({ holder => 'DZHolder', year => 2010, }) );
+$zilla->set_always(authors => ['DZAuth Stauner <rwstauner@cpan.org>']);
+$zilla->set_always(stash_named => undef);
+$zilla->mock(copyright_holder => sub { $_[0]->license->holder });
 
 sub slurp_file { local (@ARGV, $/) = @_; <> }
 
@@ -39,7 +46,8 @@ sub test_basic {
 
 	for ( @nestedh1s ) {
 	  my $para = $woven->children->[ $_ ];
-	  isa_ok($para, 'Pod::Elemental::Element::Nested', "element $_");
+	  isa_ok($para, 'Pod::Elemental::Element::Nested', "element $_")
+	    and # only check command if isa Nested
 	  is($para->command, 'head1', "... and is =head1");
 	}
 
@@ -81,9 +89,10 @@ sub weaver_input {
 		'Randy Stauner <rwstauner@cpan.org>',
 	  ],
 	  license  => Software::License::Perl_5->new({
-		holder => 'Randy Stauner',
+		holder => 'PWHolder',
 		year   => 2010,
 	  }),
+	  zilla => $zilla,
 	};
 }
 

@@ -1,6 +1,6 @@
 =pod
 
-=for :stopwords Randy Stauner MyExtraWord1 exword2 dupeword stopword3 stopword4 stopword5 foobarish foobazish reallylongword iloveperl theresapenguinlookingatme jumpingbunny bouncingrabbit fluffybunny sillyrabbit
+=for :stopwords Randy Stauner DZAuth PWHolder DZHolder MyExtraWord1 exword2 dupeword stopword3 stopword4 stopword5 foobarish foobazish reallylongword iloveperl theresapenguinlookingatme jumpingbunny bouncingrabbit fluffybunny sillyrabbit
 
 =head1 NAME
 
@@ -26,7 +26,7 @@ Randy Stauner <rwstauner@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Randy Stauner.
+This software is copyright (c) 2010 by PWHolder.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
