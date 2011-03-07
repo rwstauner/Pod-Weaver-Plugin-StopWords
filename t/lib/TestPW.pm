@@ -26,6 +26,8 @@ $zilla->set_always(license => Software::License::Perl_5->new({ holder => 'DZHold
 $zilla->set_always(authors => ['DZAuth Stauner <rwstauner@cpan.org>']);
 $zilla->set_always(stash_named => undef);
 $zilla->mock(copyright_holder => sub { $_[0]->license->holder });
+# proposed changes to Pod::Weaver::Section::Legal look for a license file.  we can ignore that for these tests.
+$zilla->set_always(files => []);
 
 sub slurp_file { local (@ARGV, $/) = @_; <> }
 
