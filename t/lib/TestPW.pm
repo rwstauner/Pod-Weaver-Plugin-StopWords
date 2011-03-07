@@ -6,7 +6,7 @@ our @ISA = qw(Exporter);
 our @EXPORT = qw(slurp_file test_basic weaver_input);
 our $Data = do { local $/; <DATA> };
 
-use Test::More;
+use Test::More 0.96;
 use Test::Differences 0.500;
 use Test::MockObject 1.09;
 use Moose::Autobox 0.10;
