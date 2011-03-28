@@ -104,9 +104,13 @@ sub finalize_document {
 			if @authors;
 	}
 
-	# TODO: keep different sections as separate lines
-	push(@stopwords, $self->splice_stopwords_from_children($document->children))
-		if $self->gather;
+	if ( $self->gather ) {
+		# TODO: keep different sections as separate lines
+		push(@stopwords, $self->splice_stopwords_from_children($document->children));
+
+		# Search the leftovers for more stopwords
+		push(@stopwords, $self->splice_stopwords_from_children($input->{pod_document}->children));
+	}
 
 	my %seen;
 	$seen{$_} = 1 foreach $self->separate_stopwords($self->exclude);
