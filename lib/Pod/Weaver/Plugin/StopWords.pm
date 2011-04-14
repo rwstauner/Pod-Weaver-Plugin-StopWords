@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 package Pod::Weaver::Plugin::StopWords;
 # ABSTRACT: Dynamically add stopwords to your woven pod
 
@@ -10,8 +12,6 @@ package Pod::Weaver::Plugin::StopWords;
 
 =cut
 
-use strict;
-use warnings;
 use Moose;
 use Moose::Autobox;
 use namespace::autoclean;
