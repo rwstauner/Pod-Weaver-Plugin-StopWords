@@ -152,8 +152,11 @@ sub format_stopwords {
 	my ($self, $stopwords) = @_;
 	my $paragraph = join(' ', @$stopwords);
 
+	# considered making a lazy _can_wrap attribute that defaults to eval require
+	# but decided that would probably be less efficient.
+
 	return $paragraph
-		unless $self->wrap && eval "require Text::Wrap";
+		unless $self->wrap && eval { require Text::Wrap; };
 
 	local $Text::Wrap::columns = $self->wrap;
 	return Text::Wrap::wrap('', '', $paragraph);
