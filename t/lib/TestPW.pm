@@ -1,3 +1,4 @@
+# vim: set ts=2 sts=2 sw=2 expandtab smarttab:
 package TestPW;
 use strict;
 use warnings;
@@ -32,70 +33,70 @@ $zilla->set_always(files => []);
 sub slurp_file { local (@ARGV, $/) = @_; <> }
 
 sub test_basic {
-	my ($weaver, $input, $stopwords) = @_;
-	my $expected = $input->{expected};
+  my ($weaver, $input, $stopwords) = @_;
+  my $expected = $input->{expected};
 
-	my ($paragraphs, $versionp, @nestedh1s) = ( 9, 1, qw(0 1 3 4 5   7 8));
-	if( $stopwords ){
-		++$_ for $paragraphs, $versionp, @nestedh1s;
-		$expected =~ s/\A=pod\n\n/=pod\n\n=for :stopwords $stopwords\n\n/;
-	}
+  my ($paragraphs, $versionp, @nestedh1s) = ( 9, 1, qw(0 1 3 4 5   7 8));
+  if( $stopwords ){
+    ++$_ for $paragraphs, $versionp, @nestedh1s;
+    $expected =~ s/\A=pod\n\n/=pod\n\n=for :stopwords $stopwords\n\n/;
+  }
 
-	# copied/modified from Pod::Weaver tests (Pod-Weaver-3.101632/t/basic.t)
-	my $woven = $weaver->weave_document($input);
+  # copied/modified from Pod::Weaver tests (Pod-Weaver-3.101632/t/basic.t)
+  my $woven = $weaver->weave_document($input);
 
-	is($woven->children->length, $paragraphs, "we end up with a $paragraphs-paragraph document");
+  is($woven->children->length, $paragraphs, "we end up with a $paragraphs-paragraph document");
 
-	for ( @nestedh1s ) {
-	  my $para = $woven->children->[ $_ ];
-	  isa_ok($para, 'Pod::Elemental::Element::Nested', "element $_")
-	    and # only check command if isa Nested
-	  is($para->command, 'head1', "... and is =head1");
-	}
+  for ( @nestedh1s ) {
+    my $para = $woven->children->[ $_ ];
+    isa_ok($para, 'Pod::Elemental::Element::Nested', "element $_")
+      and # only check command if isa Nested
+    is($para->command, 'head1', "... and is =head1");
+  }
 
-	is(
-	  $woven->children->[$versionp]->children->[0]->content,
-	  'version 1.002003',
-	  "the version is in the version section",
-	);
+  is(
+    $woven->children->[$versionp]->children->[0]->content,
+    'version 1.002003',
+    "the version is in the version section",
+  );
 
-	# XXX: This test is extremely risky as things change upstream.
-	# -- rjbs, 2009-10-23
-	eq_or_diff(
-	  $woven->as_pod_string,
-	  $expected,
-	  "exactly the pod string we wanted after weaving!",
-	);
+  # XXX: This test is extremely risky as things change upstream.
+  # -- rjbs, 2009-10-23
+  eq_or_diff(
+    $woven->as_pod_string,
+    $expected,
+    "exactly the pod string we wanted after weaving!",
+  );
 }
 
 sub weaver_input {
-	my ($dir) = @_;
-	my $base = $dir ? "$dir/" : 't/eg/';
+  my ($dir) = @_;
+  my $base = $dir ? "$dir/" : 't/eg/';
 
-	# copied/modified from Pod::Weaver tests (Pod-Weaver-3.101632/t/basic.t)
-	my $in_pod   = slurp_file("${base}in.pod");
-	my $expected = slurp_file("${base}out.pod");
-	my $document = Pod::Elemental->read_string($in_pod);
+  # copied/modified from Pod::Weaver tests (Pod-Weaver-3.101632/t/basic.t)
+  my $in_pod   = slurp_file("${base}in.pod");
+  my $expected = slurp_file("${base}out.pod");
+  my $document = Pod::Elemental->read_string($in_pod);
 
-	my $perl_document = $Data;
-	my $ppi_document  = PPI::Document->new(\$perl_document);
+  my $perl_document = $Data;
+  my $ppi_document  = PPI::Document->new(\$perl_document);
 
-	return {
-	  pod_document => $document,
-	  ppi_document => $ppi_document,
-	  # below configuration modified by rwstauner
-	  expected => $expected,
+  return {
+    pod_document => $document,
+    ppi_document => $ppi_document,
+    # below configuration modified by rwstauner
+    expected => $expected,
 
-	  version  => '1.002003',
-	  authors  => [
-		'Randy Stauner <rwstauner@cpan.org>',
-	  ],
-	  license  => Software::License::Perl_5->new({
-		holder => 'PWHolder',
-		year   => 2010,
-	  }),
-	  zilla => $zilla,
-	};
+    version  => '1.002003',
+    authors  => [
+    'Randy Stauner <rwstauner@cpan.org>',
+    ],
+    license  => Software::License::Perl_5->new({
+    holder => 'PWHolder',
+    year   => 2010,
+    }),
+    zilla => $zilla,
+  };
 }
 
 1;
