@@ -2,6 +2,11 @@ Revision history for Pod::Weaver::Plugin::StopWords
 
 {{$NEXT}}
 
+1.003 2011-04-14
+
+  - Gather stopwords paragraphs from leftovers (Thanks Apocalypse!) [github 2]
+  - Various superficial dist/release changes
+
 1.002 2011-03-07
 
   - Fix test script to account for proposed changes to Pod::Weaver [github 1]
