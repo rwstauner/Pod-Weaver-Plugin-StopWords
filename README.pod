@@ -11,4 +11,11 @@ Additionally the plugin can gather any other stopwords
 listed in the POD and compile them all into one paragraph
 at the top of the document.
 
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2010 by Randy Stauner.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
 =cut
