@@ -4,15 +4,6 @@ use warnings;
 package Pod::Weaver::Plugin::StopWords;
 # ABSTRACT: Dynamically add stopwords to your woven pod
 
-=head1 SYNOPSIS
-
-  # weaver.ini
-  [-StopWords]
-  gather = 1     ; default
-  include = MyExtraWord1 exword2
-
-=cut
-
 use Moose;
 use Moose::Autobox;
 use namespace::autoclean;
@@ -214,6 +205,13 @@ __PACKAGE__->meta->make_immutable;
 =for stopwords arrayrefs
 
 =for Pod::Coverage finalize_document mvp_aliases mvp_multivalue_args
+
+=head1 SYNOPSIS
+
+  # weaver.ini
+  [-StopWords]
+  gather = 1     ; default
+  include = MyExtraWord1 exword2
 
 =head1 DESCRIPTION
 
