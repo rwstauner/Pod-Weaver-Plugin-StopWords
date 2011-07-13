@@ -2,27 +2,27 @@ Revision history for Pod::Weaver::Plugin::StopWords
 
 {{$NEXT}}
 
-1.003 2011-04-14
+1.003     2011-04-14T22:29:08Z
 
   - Gather stopwords paragraphs from leftovers (Thanks Apocalypse!) [github 2]
   - Various superficial dist/release changes
 
-1.002 2011-03-07
+1.002     2011-03-07T21:31:54Z
 
   - Fix test script to account for proposed changes to Pod::Weaver [github 1]
 
-1.001005 2011-01-20
+1.001005  2011-01-21T01:12:49Z
 
   - Document usage with Dist::Zilla::Stash::PodWeaver
   - Add 'include_copyright_holder' option (like 'include_authors')
 
-1.000002 2010-12-16
+1.000002  2010-12-17T03:58:20Z
 
   - No code changes
   - Support Module::Build
   - Specify required (latest) versions for
     Pod::Weaver, Pod::Elemental, and Test::Differences
 
-1.000001 2010-12-16
+1.000001  2010-12-16T16:51:52Z
 
   - Initial release
