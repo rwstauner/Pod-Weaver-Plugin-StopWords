@@ -2,6 +2,9 @@ Revision history for Pod::Weaver::Plugin::StopWords
 
 {{$NEXT}}
 
+  - If =encoding directive is the first pod element
+    put collected stopwords after it (instead of before).
+
 1.004     2011-07-15T00:07:12Z
 
   - Update metadata

@@ -112,12 +112,23 @@ sub finalize_document {
 
   return unless @stopwords;
 
-  $document->children->unshift(
+  splice(
+    @{ $document->children },
+    # if the first pod element is the encoding directive, put stopwords after it
+    (_is_encoding_command($document->children->[0]) ? 1 : 0),
+    0,
     Pod::Elemental::Element::Pod5::Command->new({
       command => 'for :stopwords',
       content => $self->format_stopwords(\@stopwords)
     }),
   );
+
+  return;
+}
+
+sub _is_encoding_command {
+  my ($child) = @_;
+  return $child->can('command') && $child->command eq 'encoding';
 }
 
 =method author_stopwords
