@@ -319,5 +319,5 @@ or if you set this value to C<0>.
 * L<Pod::Weaver>
 * L<Pod::Spell>
 * L<Test::Spelling>
-* L<Dist::Zilla::Plugin::PodSpellingTests>
+* L<Dist::Zilla::Plugin::Test::PodSpelling>
 * L<Dist::Zilla::Stash::PodWeaver>
