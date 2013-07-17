@@ -248,7 +248,7 @@ So you can specify additional stopwords
   ; dist.ini
   [@YourFavoriteBundle]
   [%PodWeaver]
-  -StopWords:include = favorite_fake_word
+  -StopWords.include = favorite_fake_word
 
 =attr exclude
 
