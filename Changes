@@ -2,6 +2,9 @@ Revision history for Pod::Weaver::Plugin::StopWords
 
 {{$NEXT}}
 
+  - Update pod 'ini' example to use the preferred dot separator.
+    Thanks Karen Etheridge!
+
 1.006     2013-04-27T03:49:41Z
 
   - Update release metadata.  No code changes.
