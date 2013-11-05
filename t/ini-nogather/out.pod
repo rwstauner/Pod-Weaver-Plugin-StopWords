@@ -1,5 +1,7 @@
 =pod
 
+=encoding UTF-8
+
 =for :stopwords Randy Stauner DZAuth PWHolder DZHolder MyExtraWord1 exword2 foobarly
 
 =head1 NAME

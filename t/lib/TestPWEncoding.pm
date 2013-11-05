@@ -12,10 +12,19 @@ use Pod::Elemental::Element::Pod5::Command;
 sub finalize_document {
   my ($self, $document) = @_;
 
+  # Short-circuit if there already is an encoding directive.
+  return
+    if grep {
+      eval {
+        $_->isa('Pod::Elemental::Element::Pod5::Command') &&
+        $_->command eq 'encoding'
+      }
+    } @{ $document->children };
+
   $document->children->unshift(
     Pod::Elemental::Element::Pod5::Command->new({
       command => 'encoding',
-      content => 'utf-8',
+      content => 'UTF-8',
     }),
   );
 }

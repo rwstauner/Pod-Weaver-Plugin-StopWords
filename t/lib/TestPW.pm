@@ -37,9 +37,17 @@ sub test_basic {
   my $expected = $input->{expected};
 
   my ($paragraphs, $versionp, @nestedh1s) = ( 9, 1, qw(0 1 3 4 5   7 8));
+
+  # Back-Compatibilty: Pod::Weaver 4 has -SingleEncoding in @Default.
+  # All our tests now have TestPWEncoding but not for the @Default test.
+  if( grep { ref($_) =~ /Encoding$/ } @{ $weaver->plugins } ){
+    ++$_ for $paragraphs, $versionp, @nestedh1s;
+    $expected =~ s/\A(=pod\n\n)(=encoding (.+?)\n\n)?/$1=encoding UTF-8\n\n/;
+  }
+
   if( $stopwords ){
     ++$_ for $paragraphs, $versionp, @nestedh1s;
-    $expected =~ s/\A=pod\n\n/=pod\n\n=for :stopwords $stopwords\n\n/;
+    $expected =~ s/\A(=pod\n\n)(=encoding (.+?)\n\n)?/$1$2=for :stopwords $stopwords\n\n/;
   }
 
   # copied/modified from Pod::Weaver tests (Pod-Weaver-3.101632/t/basic.t)

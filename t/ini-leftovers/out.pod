@@ -1,5 +1,7 @@
 =pod
 
+=encoding UTF-8
+
 =for :stopwords Stauner DZAuth PWHolder DZHolder MyExtraWord1 exword2 dupeword stopword3
 stopword4 stopword5 foobarish foobazish reallylongword iloveperl
 theresapenguinlookingatme vewy wabbits jumpingbunny bouncingrabbit
