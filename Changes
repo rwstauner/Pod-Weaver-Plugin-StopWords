@@ -2,6 +2,13 @@ Revision history for Pod::Weaver::Plugin::StopWords
 
 {{$NEXT}}
 
+1.008     2013-11-05T02:12:56Z
+
+  [Test Fixes]
+  - Fix tests to expect encoding directive for compatibility
+    with Pod::Weaver 4 (compatibility with < 4 retained).
+    No code changes.
+
 1.007     2013-08-17T17:06:49Z
 
   - Update pod 'ini' example to use the preferred dot separator.

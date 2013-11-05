@@ -1,6 +1,6 @@
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =for :stopwords Randy Stauner ACKNOWLEDGEMENTS Apocalypse Karen Etheridge <apocal@cpan.org>
 <ether@cpan.org> arrayrefs cpan testmatrix url annocpan anno bugtracker rt
@@ -12,7 +12,7 @@ Pod::Weaver::Plugin::StopWords - Dynamically add stopwords to your woven pod
 
 =head1 VERSION
 
-version 1.007
+version 1.008
 
 =head1 SYNOPSIS
 
