@@ -23,6 +23,7 @@ use Pod::Weaver;
 require Software::License::Perl_5;
 
 my $zilla = Test::MockObject->new();
+$zilla->set_always(is_trial => 0);
 $zilla->set_always(license => Software::License::Perl_5->new({ holder => 'DZHolder', year => 2010, }) );
 $zilla->set_always(authors => ['DZAuth Stauner <rwstauner@cpan.org>']);
 $zilla->set_always(stash_named => undef);

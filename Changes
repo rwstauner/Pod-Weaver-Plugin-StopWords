@@ -2,6 +2,9 @@ Revision history for Pod::Weaver::Plugin::StopWords
 
 {{$NEXT}}
 
+  [Test Fixes]
+  - Mock is_trial to avoid warnings with newer Pod::Weaver.
+
 1.008     2013-11-05T02:12:56Z
 
   [Test Fixes]
