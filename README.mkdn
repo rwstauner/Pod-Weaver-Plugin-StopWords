@@ -4,7 +4,7 @@ Pod::Weaver::Plugin::StopWords - Dynamically add stopwords to your woven pod
 
 # VERSION
 
-version 1.009
+version 1.010
 
 # SYNOPSIS
 
@@ -158,7 +158,7 @@ in addition to those websites please use your favorite search engine to discover
 ## Bugs / Feature Requests
 
 Please report any bugs or feature requests by email to `bug-pod-weaver-plugin-stopwords at rt.cpan.org`, or through
-the web interface at [http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Pod-Weaver-Plugin-StopWords](http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Pod-Weaver-Plugin-StopWords). You will be automatically notified of any
+the web interface at [https://rt.cpan.org/Public/Bug/Report.html?Queue=Pod-Weaver-Plugin-StopWords](https://rt.cpan.org/Public/Bug/Report.html?Queue=Pod-Weaver-Plugin-StopWords). You will be automatically notified of any
 progress on the request by the system.
 
 ## Source Code
