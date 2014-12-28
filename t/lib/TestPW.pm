@@ -10,7 +10,6 @@ our $Data = do { local $/; <DATA> };
 use Test::More 0.96;
 use Test::Differences 0.500;
 use Test::MockObject 1.09;
-use Moose::Autobox 0.10;
 
 use PPI;
 
@@ -54,7 +53,8 @@ sub test_basic {
   # copied/modified from Pod::Weaver tests (Pod-Weaver-3.101632/t/basic.t)
   my $woven = $weaver->weave_document($input);
 
-  is($woven->children->length, $paragraphs, "we end up with a $paragraphs-paragraph document");
+  is(scalar(@{ $woven->children }), $paragraphs,
+    "we end up with a $paragraphs-paragraph document");
 
   for ( @nestedh1s ) {
     my $para = $woven->children->[ $_ ];

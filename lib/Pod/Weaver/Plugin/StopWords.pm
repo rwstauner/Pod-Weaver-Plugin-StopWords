@@ -5,7 +5,6 @@ package Pod::Weaver::Plugin::StopWords;
 # ABSTRACT: Dynamically add stopwords to your woven pod
 
 use Moose;
-use Moose::Autobox;
 use namespace::autoclean;
 
 use Pod::Weaver 3.101632 ();
@@ -197,8 +196,9 @@ sub splice_stopwords_from_children {
     next unless $para->isa('Pod::Elemental::Element::Pod5::Region')
       and $para->format_name eq 'stopwords';
 
-    push(@stopwords,
-      map { split(/\s+/, $_->content) } $para->children->flatten);
+    push @stopwords,
+      map { split(/\s+/, $_->content) }
+        @{ $para->children };
 
     # remove paragraph from document since we've copied all of its stopwords
     splice(@$children, $i, 1);

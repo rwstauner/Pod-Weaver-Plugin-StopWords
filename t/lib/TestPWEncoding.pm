@@ -4,7 +4,6 @@ package TestPWEncoding;
 # a tiny version of Pod::Weaver::Plugin::Encoding
 
 use Moose;
-use Moose::Autobox;
 with 'Pod::Weaver::Role::Finalizer';
 
 use Pod::Elemental::Element::Pod5::Command;
@@ -21,12 +20,11 @@ sub finalize_document {
       }
     } @{ $document->children };
 
-  $document->children->unshift(
+  unshift @{ $document->children },
     Pod::Elemental::Element::Pod5::Command->new({
       command => 'encoding',
       content => 'UTF-8',
-    }),
-  );
+    });
 }
 
 __PACKAGE__->meta->make_immutable;
