@@ -2,7 +2,6 @@
 use strict;
 use warnings;
 use Test::More 0.96;
-use Test::Differences;
 use lib 't/lib';
 use TestPW;
 
@@ -20,9 +19,7 @@ foreach my $dir ( glob("t/ini-*") ){
   my $weaver = Pod::Weaver->new_from_config({ root => $dir });
   my $woven = $weaver->weave_document($input);
 
-  # XXX: This test is extremely risky as things change upstream.
-  # -- rjbs, 2009-10-23
-  eq_or_diff(
+  compare_pod_ok(
     $woven->as_pod_string,
     $expected,
     "exactly the pod string we wanted after weaving in $dir!",
